@@ -20,8 +20,6 @@ Add this to your `Cargo.toml`:
 shutdown-now = "1"
 ```
 
-Note: This crate depends on `tokio` with the `full` feature enabled.
-
 ## Usage
 
 The crate exposes two main functions:
