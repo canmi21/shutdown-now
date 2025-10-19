@@ -1,0 +1,26 @@
+[package]
+name = "shutdown-now"
+version = "1.0.0"
+edition = "2024"
+description = "Gracefully handle shutdown and termination signals with zero hassle."
+license = "MIT"
+repository = "https://github.com/canmi21/shutdown-now"
+readme = "README.md"
+keywords = ["server", "unix", "signal", "exit"]
+# I really don't know which category to put it in (:
+categories = ["asynchronous"]
+
+[lib]
+path = "src/lib.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "demo"
+path = "examples/demo.rs"
+
+[dependencies]
+fancy-log = "0.1"
+tokio = { version = "1", features = ["full"] }
+
+[dev-dependencies]
+axum = "0.8"
