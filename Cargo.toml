@@ -18,8 +18,25 @@ crate-type = ["lib"]
 name = "demo"
 path = "examples/demo.rs"
 
+[[example]]
+name = "axum"
+path = "examples/axum.rs"
+
+[[example]]
+name = "axum-fancy"
+path = "examples/axum-fancy.rs"
+required-features = ["fancy"]
+
 [dependencies]
 tokio = { version = "1", features = ["macros", "signal", "rt-multi-thread"] }
 
+[dependencies.fancy-log]
+version = "0.1"
+optional = true
+
 [dev-dependencies]
 axum = "0.8"
+
+[features]
+default = []
+fancy = ["fancy-log"]
