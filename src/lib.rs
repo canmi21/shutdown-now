@@ -3,6 +3,9 @@
 use std::future::Future;
 use tokio::signal;
 
+#[cfg(feature = "fancy-log")]
+use fancy_log::{LogLevel, log, set_log_level};
+
 /// Waits for a shutdown signal (Ctrl+C or SIGTERM).
 pub async fn graceful() {
 	let ctrl_c = async {
@@ -23,15 +26,31 @@ pub async fn graceful() {
 	let terminate = std::future::pending::<()>();
 
 	tokio::select! {
-			_ = ctrl_c => {},
-			_ = terminate => {},
+		_ = ctrl_c => {},
+		_ = terminate => {},
 	}
 
+	#[cfg(feature = "fancy-log")]
+	{
+		use std::env;
+		let level = env::var("LOG_LEVEL")
+			.unwrap_or_else(|_| "info".to_string())
+			.to_lowercase();
+		let level = match level.as_str() {
+			"debug" => LogLevel::Debug,
+			"warn" => LogLevel::Warn,
+			"error" => LogLevel::Error,
+			_ => LogLevel::Info,
+		};
+		set_log_level(level);
+		log(LogLevel::Info, "Signal received, shutdown now...");
+	}
+
+	#[cfg(not(feature = "fancy-log"))]
 	println!(" Signal received, shutdown now...");
 }
 
 /// Returns a Future that completes when shutdown signal occurs.
-/// Same as [`graceful()`] but non-blocking (you can `.await` it anywhere).
 pub fn graceful_future() -> impl Future<Output = ()> {
 	async { graceful().await }
 }
