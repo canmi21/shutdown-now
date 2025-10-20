@@ -1,6 +1,6 @@
 [package]
 name = "shutdown-now"
-version = "1.0.3"
+version = "1.0.4"
 edition = "2024"
 description = "Gracefully handle shutdown and termination signals with zero hassle."
 license = "MIT"
